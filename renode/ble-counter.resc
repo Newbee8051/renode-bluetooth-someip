@@ -1,0 +1,37 @@
+# ble-counter.resc — two nRF52840 nodes, one BLE medium.
+# Server notifies a counter; client subscribes and prints it.
+# Run:  renode renode/ble-counter.resc   then type  start
+
+using sysbus
+
+$server_bin ?= @build/server/zephyr/zephyr.elf
+$client_bin ?= @build/client/zephyr/zephyr.elf
+
+# The shared "air" the two radios talk through.
+emulation CreateBLEMedium "wireless"
+
+mach create "server"
+machine LoadPlatformDescription @platforms/cpus/nrf52840.repl
+connector Connect sysbus.radio wireless
+showAnalyzer uart0
+
+mach create "client"
+machine LoadPlatformDescription @platforms/cpus/nrf52840.repl
+connector Connect sysbus.radio wireless
+showAnalyzer uart0
+
+# BLE needs a tight time quantum so the two stacks stay in sync.
+emulation SetGlobalQuantum "0.00001"
+
+macro reset
+"""
+    mach set "server" 
+    sysbus LoadELF $server_bin
+    mach set "client"
+    sysbus LoadELF $client_bin
+"""
+runMacro $reset
+
+echo "Loaded. Type 'start'. Watch the two UART windows:"
+echo "  server -> advertising -> notified counter = N"
+echo "  client -> scanning -> connected -> subscribed -> RECEIVED counter = N"
