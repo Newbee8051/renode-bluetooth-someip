@@ -1,7 +1,19 @@
-![someip_service_discovery_signal_flow](someip_service_discovery_signal_flow.png)
+<figure>
+  <img src="someip_service_discovery_signal_flow.png" alt="SOME/IP" width="950">
+  <figcaption>SOMEIP Service Discovery Signal Flow</figcaption>
+</figure>
 
-![ble_gatt_signal_flow_refined](ble_gatt_signal_flow_refined.png)
+<figure>
+  <img src="ble_gatt_signal_flow_refined.png" alt="Bluetooth" width="950">
+  <figcaption>BLE GATT Signal Flow</figcaption>
+</figure>
 
+<br>
+<br>
+<br>
+<br>
+
+## Insights
 1. **The Strongest parallel**
    The subscribe/notify spine. This is the sentence to say out loud: "The BLE CCC-write-then-notify pattern and the SOME/IP SubscribeEventgroup-then-Event pattern are the same publish-subscribe idea at different protocol layers." In both: the consumer explicitly opts in to a data stream by writing a single descriptor/field on the provider, the provider stores that subscriber internally, and then pushes updates to all subscribers whenever data changes without the consumer having to poll. The Eventgroup subscriber list (steps 6, 9, 13) maps exactly to the CCC descriptor (steps 10, 15, 18 in your Eraser diagram). Both are the server-side on/off switch that the client writes remotely.
 

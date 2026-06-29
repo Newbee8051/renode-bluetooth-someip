@@ -35,8 +35,6 @@ Renode has a small vocabulary. Learn these and the rest follows:
    demo has two: a "central" and a "peripheral."
 2. **Platform description (`.repl`)** — a text file describing *what* a machine is
    (which CPU, which peripherals at which addresses). `platforms/cpus/nrf52840.repl`.
-   *Swapping this file is how you change the simulated chip — your "chipset-agnostic"
-   demo lives here.*
 3. **Script (`.resc`)** — Renode commands run in sequence: create machines, load
    binaries, wire them together, start. Think of it as the "scene setup."
 4. **Medium** — for wireless, a shared channel (`CreateBLEMedium`) that machines'
@@ -96,6 +94,7 @@ Things worth trying, and what they teach:
   whole reason simulation beats hardware for benchmarking.
 - **`LogWirelessTraffic` + Wireshark** → you can inspect real protocol packets. Shows
   the binaries run a genuine BLE stack, not a mock.
+```
 
 ## Troubleshooting first-run issues
 
